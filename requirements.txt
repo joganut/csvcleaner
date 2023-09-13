@@ -135,9 +135,6 @@ simplejson==3.19.1
 six==1.16.0
 smmap==5.0.0
 soupsieve==2.5
-SQLAlchemy==2.0.20
-SQLAlchemy-JSONField==1.0.1.post0
-SQLAlchemy-Utils==0.39.0
 sqlparse==0.4.3
 st-annotated-text==4.0.1
 streamlit==1.26.0
