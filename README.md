@@ -9,7 +9,7 @@ Upload CSV File: Click on the "Upload CSV file" button to upload your CSV data.
 
 Dataframe View: Once the CSV file is uploaded, you'll see a view of the dataframe.
 
-Rename Columns:
+## Rename Columns:
 
 Expand the section titled "🔄 Rename your columns as you please".
 Enter new names for the columns as desired and click "Apply Column Renaming".
