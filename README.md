@@ -1,3 +1,4 @@
+<a href="https://www.buymeacoffee.com/gbraad" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 # csvcleaner
 CSV Cleaner App
 This is a Streamlit web application for cleaning and manipulating CSV data. It provides various options for data cleaning operations, including handling missing values, renaming columns, removing duplicates, converting data types, dropping columns, filling missing values, and sorting data. Additionally, it allows you to execute SQL queries on the data.
