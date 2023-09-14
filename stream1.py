@@ -6,37 +6,79 @@ from pandasql import sqldf
 
 
 def handle_missing_values(df_session):
-    return df_session.dropna()
+    try:
+        cleaned_df = df_session.dropna()
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error handling missing values: {e}")
+        return df_session
 
 
 # Function to rename columns
 def rename_columns(df_session, column_mapping):
-    return df_session.rename(columns=column_mapping)
+    try:
+        cleaned_df = df_session.rename(columns=column_mapping)
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error renaming columns: {e}")
+        return df_session
+
 
 # Function to remove duplicate rows
-
-
 def remove_duplicates(df_session):
-    return df_session.drop_duplicates()
+    try:
+        cleaned_df = df_session.drop_duplicates()
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error removing duplicates: {e}")
+        return df_session
 
 
 # Function to convert data type of a specific column
 def convert_data_type(df_session, column_name, target_dtype):
-    return df_session.astype({column_name: target_dtype})
+    try:
+        cleaned_df = df_session.astype({column_name: target_dtype})
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error converting data type: {e}")
+        return df_session
 
 
 # Function to drop specified columns
 def drop_columns(df_session, columns_to_drop):
-    return df_session.drop(columns=columns_to_drop, errors='ignore')
+    try:
+        cleaned_df = df_session.drop(columns=columns_to_drop, errors='ignore')
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error dropping columns: {e}")
+        return df_session
 
 
 # Function to fill missing values in a specific column with a specified value
 def fill_na_column_specific(df_session, column_name, fill_value):
-    return df_session.fillna({column_name: fill_value})
+    try:
+        cleaned_df = df_session.fillna({column_name: fill_value})
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error filling missing values: {e}")
+        return df_session
 
 
 def order_by_column(df_session, column_name, ascending=True):
-    return df_session.sort_values(by=column_name, ascending=ascending)
+    try:
+        cleaned_df = df_session.sort_values(
+            by=column_name, ascending=ascending)
+        st.success("Task completed")
+        return cleaned_df
+    except Exception as e:
+        st.error(f"Error ordering by column: {e}")
+        return df_session
 
 
 # Function to display data
@@ -74,7 +116,6 @@ if uploaded_file is not None:
         if st.button("Apply Column Renaming") and column_mapping:
             session_state['df'] = rename_columns(
                 session_state['df'], column_mapping)
-            st.success("Task completed")
 
     if 'df' in session_state:
         session_state['df'] = session_state['df']
@@ -84,7 +125,6 @@ if uploaded_file is not None:
 
         if st.button("Handle Missing Values"):
             session_state['df'] = handle_missing_values(session_state['df'])
-            st.success("Task completed")
 
     if 'df' in session_state:
         session_state['df'] = session_state['df']
@@ -100,7 +140,6 @@ if uploaded_file is not None:
             target_dtype = int if target_dtype == 'int' else float if target_dtype == 'float' else str
             session_state['df'] = convert_data_type(
                 session_state['df'], convert_column, target_dtype)
-            st.success("Task completed")
 
     if 'df' in session_state:
         session_state['df'] = session_state['df']
@@ -112,7 +151,6 @@ if uploaded_file is not None:
         if st.button("Drop Columns"):
             session_state['df'] = drop_columns(
                 session_state['df'], columns_to_drop)
-            st.success("Task completed")
 
     if 'df' in session_state:
         session_state['df'] = session_state['df']
@@ -126,7 +164,6 @@ if uploaded_file is not None:
         if st.button("Fill Missing Values") and fill_value:
             session_state['df'] = fill_na_column_specific(
                 session_state['df'], fill_column, fill_value)
-            st.success("Task completed")
 
     if 'df' in session_state:
         session_state['df'] = session_state['df']
@@ -142,7 +179,6 @@ if uploaded_file is not None:
         if st.button("Order by Column"):
             session_state['df'] = order_by_column(
                 session_state['df'], order_column, ascending_order)
-            st.success("Task completed")
 
     # Download Cleaned Data Button
     col1, col2, col3 = st.columns(3)
