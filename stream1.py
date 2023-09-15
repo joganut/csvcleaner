@@ -4,6 +4,20 @@ import pandas as pd
 from streamlit_extras.buy_me_a_coffee import button
 from pandasql import sqldf
 
+st.markdown(
+    """
+<style>
+.css-cio0dv.ea3mdgi1
+{
+    visibility: hidden;
+}
+.css-czk5ss.e16jpq800
+{
+    visibility: hidden;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 def handle_missing_values(df_session):
     try:
