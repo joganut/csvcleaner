@@ -9,11 +9,11 @@ st.markdown(
 <style>
 .css-cio0dv.ea3mdgi1
 {
-    visibility: hidden;
+    display: none;
 }
 .css-czk5ss.e16jpq800
 {
-    visibility: hidden;
+    display: none;
 }
 </style>
 """, unsafe_allow_html=True)
