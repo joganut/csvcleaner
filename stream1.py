@@ -6,23 +6,23 @@ from pandasql import sqldf
 
 st.set_page_config(layout="wide")
 
-# # st.markdown(
-#     """
-# <style>
-# .css-cio0dv.ea3mdgi1
-# {
-#     display: none;
-# }
-# .css-czk5ss.e16jpq800
-# {
-#     display: none;
-# }
-# .stActionButton
-# {
-#     display:none;
-# }
-# </style>
-# """, unsafe_allow_html=True)
+st.markdown(
+    """
+<style>
+.css-cio0dv.ea3mdgi1
+{
+    display: none;
+}
+.css-czk5ss.e16jpq800
+{
+    display: none;
+}
+.stActionButton
+{
+    display:none;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
 def handle_missing_values(df_session):
