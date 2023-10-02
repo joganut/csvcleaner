@@ -107,14 +107,14 @@ def delete_session(df_session):
 
 
 # App Title
-st.title("CsvCleaner")
-button(username="joganutl", floating=False, width=220, bg_color='#00B3FF', )
 
+button(username="joganutl", floating=False, width=220, bg_color='#00B3FF', )
+st.title("CsvCleaner")
 
 lay1, lay2 = st.columns([3, 2])
 
 with lay1:
-    st.caption('''CSV Cleaner App is a web application for cleaning and manipulating CSV data. It provides various options for data cleaning operations, including handling missing values, renaming columns, removing duplicates, converting data types, dropping columns, filling missing values, and sorting data. Additionally, it allows you to execute SQL queries on the data.''')
+    st.caption('''CSV Cleaner App is a web application for cleaning and manipulating CSV data. It provides various options for data cleaning operations, including handling missing values, renaming columns, removing duplicates, converting data types, dropping columns, filling missing values, and sorting data.''')
 
     uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
     if uploaded_file is not None:
