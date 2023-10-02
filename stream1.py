@@ -4,6 +4,8 @@ import pandas as pd
 from streamlit_extras.buy_me_a_coffee import button
 from pandasql import sqldf
 
+st.set_page_config(layout="wide")
+
 st.markdown(
     """
 <style>
@@ -100,143 +102,137 @@ def order_by_column(df_session, column_name, ascending=True):
 
 
 # Function to display data
-def display_data(df_session):
-    st.write("Cleaned Data:")
-    st.dataframe(df_session)
+def delete_session(df_session):
+    del df_session
 
 
 # App Title
-st.title("CsvCleaner App")
+st.title("CsvCleaner")
+button(username="joganutl", floating=False, width=220, bg_color='#00B3FF', )
+# st.caption('''Is your data tangled in a web of disorder and inconsistencies? Meet CSV Cleaner,
+#             the ultimate no code solution tailored for those seeking to breathe life into messy datasets.
+#                 Built with a passion for precision, our app specializes in the fine art of data cleaning and meticulous ordering.''')
 
-st.write('''Is your data tangled in a web of disorder and inconsistencies? Meet CSV Cleaner,
-          the ultimate no code and SQL solution tailored for those seeking to breathe life into messy datasets.
-            Built with a passion for precision, our app specializes in the fine art of data cleaning and meticulous ordering.''')
+lay1, lay2 = st.columns([3, 2])
 
-uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
-if uploaded_file is not None:
-    session_state = st.session_state
-    if 'df' not in session_state:
-        session_state['df'] = pd.read_csv(uploaded_file)
+with lay1:
 
-    st.write("Dataframe View:")
-    st.button("Refresh Dataframe", type="primary")
-    st.dataframe(session_state['df'])
+    uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
+    if uploaded_file is not None:
+        session_state = st.session_state
+        if 'df' not in session_state:
+            session_state['df'] = pd.read_csv(uploaded_file)
 
-    # Rename Columns Button
-    with st.expander("🔄 Rename your columns as you please"):
-        st.write("Rename Columns:")
-        column_mapping = {}
-        for col in session_state['df'].columns:
-            new_name = st.text_input(f"New Name for '{col}'", key=col)
-            if new_name:
-                column_mapping[col] = new_name
+        st.write("Dataframe View:")
+        st.button("Refresh Dataframe", type="primary")
+        st.dataframe(session_state['df'], width=1000)
 
-        if st.button("Apply Column Renaming") and column_mapping:
-            session_state['df'] = rename_columns(
-                session_state['df'], column_mapping)
+        with lay2:
+            st.write('\n')
+            st.write('\n')
 
-    if 'df' in session_state:
-        session_state['df'] = session_state['df']
+            # Rename Columns Button
+            if st.button("Clear Current Session", type="secondary"):
+                streamlit_js_eval(
+                    js_expressions="parent.window.location.reload()")
 
-    # Handle Missing Values Button
-    with st.expander("🗑️ Drop null values from your data"):
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
 
-        if st.button("Handle Missing Values"):
-            session_state['df'] = handle_missing_values(session_state['df'])
+            with st.expander("🔄 Rename your columns as you please"):
+                st.write("Rename Columns:")
+                column_mapping = {}
+                for col in session_state['df'].columns:
+                    new_name = st.text_input(f"New Name for '{col}'", key=col)
+                    if new_name:
+                        column_mapping[col] = new_name
 
-    if 'df' in session_state:
-        session_state['df'] = session_state['df']
+                if st.button("Apply Column Renaming") and column_mapping:
+                    session_state['df'] = rename_columns(
+                        session_state['df'], column_mapping)
 
-     # Convert Data Type Button (Column Specific)
-    with st.expander("🔀 Convert datatypes of your columns"):
-        convert_column = st.selectbox(
-            "Select Column to Convert Data Type", session_state['df'].columns)
-        target_dtype = st.selectbox("Select Target Data Type", [
-            'int', 'float', 'str'])
+            if 'df' in session_state:
+                session_state['df'] = session_state['df']
 
-        if st.button("Convert Data Type"):
-            target_dtype = int if target_dtype == 'int' else float if target_dtype == 'float' else str
-            session_state['df'] = convert_data_type(
-                session_state['df'], convert_column, target_dtype)
+            # Handle Missing Values Button
+            with st.expander("🗑️ Drop null values from your data"):
 
-    if 'df' in session_state:
-        session_state['df'] = session_state['df']
+                if st.button("Handle Missing Values"):
+                    session_state['df'] = handle_missing_values(
+                        session_state['df'])
 
-     # Drop Columns Button
-    with st.expander("🔽 Drop columns you dont need"):
-        columns_to_drop = st.multiselect(
-            "Select Columns to Drop", session_state['df'].columns)
-        if st.button("Drop Columns"):
-            session_state['df'] = drop_columns(
-                session_state['df'], columns_to_drop)
+            if 'df' in session_state:
+                session_state['df'] = session_state['df']
 
-    if 'df' in session_state:
-        session_state['df'] = session_state['df']
+            # Convert Data Type Button (Column Specific)
+            with st.expander("🔀 Convert datatypes of your columns"):
+                convert_column = st.selectbox(
+                    "Select Column to Convert Data Type", session_state['df'].columns)
+                target_dtype = st.selectbox("Select Target Data Type", [
+                    'int', 'float', 'str'])
 
-    # Fill Missing Values Button (Column Specific)
-    with st.expander("🔍 Fill missing data from your columns"):
-        fill_column = st.selectbox(
-            "Select Column to Fill", session_state['df'].columns)
-        fill_value = st.text_input(
-            f"Fill missing values in '{fill_column}' with:")
-        if st.button("Fill Missing Values") and fill_value:
-            session_state['df'] = fill_na_column_specific(
-                session_state['df'], fill_column, fill_value)
+                if st.button("Convert Data Type"):
+                    target_dtype = int if target_dtype == 'int' else float if target_dtype == 'float' else str
+                    session_state['df'] = convert_data_type(
+                        session_state['df'], convert_column, target_dtype)
 
-    if 'df' in session_state:
-        session_state['df'] = session_state['df']
+            if 'df' in session_state:
+                session_state['df'] = session_state['df']
 
-    with st.expander("⬆️⬇️ Sort your data in ascending or descending"):
-        order_column = st.selectbox(
-            "Select Column to Order By", session_state['df'].columns)
-        order_direction = st.radio(
-            "Order Direction", ["Ascending", "Descending"])
+            # Drop Columns Button
+            with st.expander("🔽 Drop columns you dont need"):
+                columns_to_drop = st.multiselect(
+                    "Select Columns to Drop", session_state['df'].columns)
+                if st.button("Drop Columns"):
+                    session_state['df'] = drop_columns(
+                        session_state['df'], columns_to_drop)
 
-        ascending_order = True if order_direction == "Ascending" else False
+            if 'df' in session_state:
+                session_state['df'] = session_state['df']
 
-        if st.button("Order by Column"):
-            session_state['df'] = order_by_column(
-                session_state['df'], order_column, ascending_order)
+            # Fill Missing Values Button (Column Specific)
+            with st.expander("🔍 Fill missing data from your columns"):
+                fill_column = st.selectbox(
+                    "Select Column to Fill", session_state['df'].columns)
+                fill_value = st.text_input(
+                    f"Fill missing values in '{fill_column}' with:")
+                if st.button("Fill Missing Values") and fill_value:
+                    session_state['df'] = fill_na_column_specific(
+                        session_state['df'], fill_column, fill_value)
 
-    # Download Cleaned Data Button
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if session_state['df'] is not None:
-            st.download_button(label="Download Cleaned Data", data=session_state['df'].to_csv(
-                index=False), file_name="cleaned_data.csv")
-    with col2:
-        if st.button("Reload page"):
-            streamlit_js_eval(js_expressions="parent.window.location.reload()")
+            if 'df' in session_state:
+                session_state['df'] = session_state['df']
 
-    st.markdown("""---""")
+            with st.expander("⬆️⬇️ Sort your data in ascending or descending"):
+                order_column = st.selectbox(
+                    "Select Column to Order By", session_state['df'].columns)
+                order_direction = st.radio(
+                    "Order Direction", ["Ascending", "Descending"])
 
-    if 'df' in session_state:
-        df = session_state['df']
+                ascending_order = True if order_direction == "Ascending" else False
 
-    with st.expander("🗃️ Type in your SQL queries for advanced cleaning"):
-        sql_query = st.text_area(
-            "Enter your SQL query:" + "   " + "(table name will be 'df' by default)")
+                if st.button("Order by Column"):
+                    session_state['df'] = order_by_column(
+                        session_state['df'], order_column, ascending_order)
 
-        if st.button("Execute Query"):
-            if sql_query:
+            # Download Cleaned Data Button
+            col1, col2 = st.columns([2, 1])
+            with col1:
+                if session_state['df'] is not None:
+                    st.download_button(label="Download Cleaned Data", data=session_state['df'].to_csv(
+                        index=False), file_name="cleaned_data.csv")
 
-                # Execute the SQL query
-                try:
-                    result_df = sqldf(sql_query)
-                    st.write("Query Result:")
-                    st.dataframe(result_df)
-                except Exception as e:
-                    st.error(f"Error executing SQL query: {e}")
 
-        # Download Cleaned Data Button
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    if session_state['df'] is not None:
-                        df = result_df
-                        st.download_button(label="Download Cleaned Data", data=df.to_csv(
-                            index=False), file_name="cleaned_data_sql.csv")
-
-    st.write('\n')
-    st.write('\n')
-
-    button(username="joganutl", floating=False, width=220)
+# else:
+#     st.write("Dataframe View:")
+#     st.dataframe(pd.DataFrame(), width=1000)
