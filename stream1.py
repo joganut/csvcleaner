@@ -124,7 +124,7 @@ with lay1:
 
         st.write("Dataframe View:")
         st.button("Refresh Dataframe", type="primary")
-        st.dataframe(session_state['df'], width=1000)
+        st.dataframe(session_state['df'], width=1000, height=600)
 
         with lay2:
             if st.button("Clear Current Session", type="secondary"):
