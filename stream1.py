@@ -109,13 +109,12 @@ def delete_session(df_session):
 # App Title
 st.title("CsvCleaner")
 button(username="joganutl", floating=False, width=220, bg_color='#00B3FF', )
-# st.caption('''Is your data tangled in a web of disorder and inconsistencies? Meet CSV Cleaner,
-#             the ultimate no code solution tailored for those seeking to breathe life into messy datasets.
-#                 Built with a passion for precision, our app specializes in the fine art of data cleaning and meticulous ordering.''')
+
 
 lay1, lay2 = st.columns([3, 2])
 
 with lay1:
+    st.caption('''CSV Cleaner App is a web application for cleaning and manipulating CSV data. It provides various options for data cleaning operations, including handling missing values, renaming columns, removing duplicates, converting data types, dropping columns, filling missing values, and sorting data. Additionally, it allows you to execute SQL queries on the data.''')
 
     uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
     if uploaded_file is not None:
@@ -128,26 +127,28 @@ with lay1:
         st.dataframe(session_state['df'], width=1000)
 
         with lay2:
-            st.write('\n')
-            st.write('\n')
-
-            # Rename Columns Button
             if st.button("Clear Current Session", type="secondary"):
                 streamlit_js_eval(
                     js_expressions="parent.window.location.reload()")
+            st.write('\n')
+            st.write('\n')
+            st.write('\n')
 
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
-            st.write('\n')
+            with st.expander("HOW TO USE"):
+                st.caption(
+                    '1. Click on the "Upload CSV file" button to upload your CSV data.')
+                st.caption(
+                    "2. Once the CSV file is uploaded, you'll see a view of the dataframe. Use the 'Refresh button' to see changes.")
+                st.caption(
+                    '3. Expand the section titled "🔄 Rename your columns as you please". Enter new names for the columns as desired and click "Apply Column Renaming".')
+                st.caption('4. Expand the section titled "🔀 Convert datatypes of your columns". Select a column to convert its data type, choose the target data type, and click "Convert Data Type".')
+                st.caption(
+                    '5. Expand the section titled \"🔽 Drop columns you don\'t need\". Select the columns to drop and click \"Drop Columns\".')
+                st.caption('6. Expand the section titled "🔍 Fill missing data from your columns". Select a column and enter a value to fill missing entries. Click "Fill Missing Values".')
+                st.caption(
+                    '7. Expand the section titled "⬆️⬇️ Sort your data in ascending or descending". Select a column and choose the sorting order. Click "Order by Column".')
+                st.caption(
+                    '8. Use "Clear Current Session" button to clear the current session and upload another CSV file')
 
             with st.expander("🔄 Rename your columns as you please"):
                 st.write("Rename Columns:")
@@ -226,7 +227,7 @@ with lay1:
                         session_state['df'], order_column, ascending_order)
 
             # Download Cleaned Data Button
-            col1, col2 = st.columns([2, 1])
+            col1, col2 = st.columns([2, 3])
             with col1:
                 if session_state['df'] is not None:
                     st.download_button(label="Download Cleaned Data", data=session_state['df'].to_csv(
