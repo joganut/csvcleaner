@@ -123,7 +123,7 @@ def add_headers_if_missing(df_session):
 # App Title
 
 button(username="joganutl", floating=False, width=220, bg_color='#00B3FF', )
-st.title("CsvCleaner")
+st.title("🗂️ CsvCleaner")
 
 lay1, lay2 = st.columns([3, 2])
 
@@ -232,6 +232,11 @@ with lay1:
                 if st.button("Fill Missing Values") and fill_value:
                     session_state['df'] = fill_na_column_specific(
                         session_state['df'], fill_column, fill_value)
+
+            with st.expander("📛 Drop duplicate rows present in your dataset"):
+                if st.button("Drop Duplicates"):
+                    session_state['df'] = remove_duplicates(
+                        session_state['df'])
 
             # if 'df' in session_state:
             #     session_state['df'] = session_state['df']
