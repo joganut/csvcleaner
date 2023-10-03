@@ -101,9 +101,23 @@ def order_by_column(df_session, column_name, ascending=True):
         return df_session
 
 
+def add_headers_if_missing(df_session):
+    try:
+        first_row = df_session.columns
+
+        df_session.columns = [
+            f'Column_{i+1}' for i in range(len(df_session.columns))]
+        new_row = [first_row[index] for index in range(len(first_row))]
+        df_session.loc[len(df_session)] = new_row
+        st.success('Headers added successfully')
+        return df_session.columns
+    except Exception as e:
+        st.error(f'Error adding headers: {e}')
+        return df_session.columns
+
 # Function to display data
-def delete_session(df_session):
-    del df_session
+# def delete_session(df_session):
+#     del df_session
 
 
 # App Title
@@ -134,23 +148,31 @@ with lay1:
             st.write('\n')
             st.write('\n')
 
-            with st.expander("HOW TO USE"):
+            with st.expander("📘 HOW TO USE"):
                 st.caption(
                     '1. Click on the "Upload CSV file" button to upload your CSV data.')
                 st.caption(
                     "2. Once the CSV file is uploaded, you'll see a view of the dataframe. Use the 'Refresh button' to see changes.")
                 st.caption(
-                    '3. Expand the section titled "🔄 Rename your columns as you please". Enter new names for the columns as desired and click "Apply Column Renaming".')
-                st.caption('4. Expand the section titled "🔀 Convert datatypes of your columns". Select a column to convert its data type, choose the target data type, and click "Convert Data Type".')
+                    '3. Expand the section titled "Add headers to your dataset". click "Add Headers" button to add generic header names if your dataset has no headers or a row present as header')
                 st.caption(
-                    '5. Expand the section titled \"🔽 Drop columns you don\'t need\". Select the columns to drop and click \"Drop Columns\".')
-                st.caption('6. Expand the section titled "🔍 Fill missing data from your columns". Select a column and enter a value to fill missing entries. Click "Fill Missing Values".')
+                    '4. Expand the section titled "🔄 Rename your columns as you please". Enter new names for the columns as desired and click "Apply Column Renaming".')
+                st.caption('5. Expand the section titled "🔀 Convert datatypes of your columns". Select a column to convert its data type, choose the target data type, and click "Convert Data Type".')
                 st.caption(
-                    '7. Expand the section titled "⬆️⬇️ Sort your data in ascending or descending". Select a column and choose the sorting order. Click "Order by Column".')
+                    '6. Expand the section titled \"🔽 Drop columns you don\'t need\". Select the columns to drop and click \"Drop Columns\".')
+                st.caption('7. Expand the section titled "🔍 Fill missing data from your columns". Select a column and enter a value to fill missing entries. Click "Fill Missing Values".')
                 st.caption(
-                    '8. Use "Clear Current Session" button to clear the current session and upload another CSV file')
+                    '8. Expand the section titled "⬆️⬇️ Sort your data in ascending or descending". Select a column and choose the sorting order. Click "Order by Column".')
+                st.caption(
+                    '9. Use "Clear Current Session" button to clear the current session and upload another CSV file')
 
-            with st.expander("🔄 Rename your columns as you please"):
+            with st.expander('📑 Add headers to your dataset'):
+                if st.button('Add Headers'):
+
+                    session_state['df'].columns = add_headers_if_missing(
+                        session_state["df"])
+
+            with st.expander("✏️ Rename your columns as you please"):
                 st.write("Rename Columns:")
                 column_mapping = {}
                 for col in session_state['df'].columns:
@@ -162,8 +184,8 @@ with lay1:
                     session_state['df'] = rename_columns(
                         session_state['df'], column_mapping)
 
-            if 'df' in session_state:
-                session_state['df'] = session_state['df']
+            # if 'df' in session_state:
+            #     session_state['df'] = session_state['df']
 
             # Handle Missing Values Button
             with st.expander("🗑️ Drop null values from your data"):
@@ -172,11 +194,11 @@ with lay1:
                     session_state['df'] = handle_missing_values(
                         session_state['df'])
 
-            if 'df' in session_state:
-                session_state['df'] = session_state['df']
+            # if 'df' in session_state:
+            #     session_state['df'] = session_state['df']
 
             # Convert Data Type Button (Column Specific)
-            with st.expander("🔀 Convert datatypes of your columns"):
+            with st.expander("🔁 Convert datatypes of your columns"):
                 convert_column = st.selectbox(
                     "Select Column to Convert Data Type", session_state['df'].columns)
                 target_dtype = st.selectbox("Select Target Data Type", [
@@ -187,22 +209,22 @@ with lay1:
                     session_state['df'] = convert_data_type(
                         session_state['df'], convert_column, target_dtype)
 
-            if 'df' in session_state:
-                session_state['df'] = session_state['df']
+            # if 'df' in session_state:
+            #     session_state['df'] = session_state['df']
 
             # Drop Columns Button
-            with st.expander("🔽 Drop columns you dont need"):
+            with st.expander("❌ Drop columns you dont need"):
                 columns_to_drop = st.multiselect(
                     "Select Columns to Drop", session_state['df'].columns)
                 if st.button("Drop Columns"):
                     session_state['df'] = drop_columns(
                         session_state['df'], columns_to_drop)
 
-            if 'df' in session_state:
-                session_state['df'] = session_state['df']
+            # if 'df' in session_state:
+            #     session_state['df'] = session_state['df']
 
             # Fill Missing Values Button (Column Specific)
-            with st.expander("🔍 Fill missing data from your columns"):
+            with st.expander("➕ Fill missing data from your columns"):
                 fill_column = st.selectbox(
                     "Select Column to Fill", session_state['df'].columns)
                 fill_value = st.text_input(
@@ -211,10 +233,10 @@ with lay1:
                     session_state['df'] = fill_na_column_specific(
                         session_state['df'], fill_column, fill_value)
 
-            if 'df' in session_state:
-                session_state['df'] = session_state['df']
+            # if 'df' in session_state:
+            #     session_state['df'] = session_state['df']
 
-            with st.expander("⬆️⬇️ Sort your data in ascending or descending"):
+            with st.expander("🔽🔼 Sort your data in ascending or descending"):
                 order_column = st.selectbox(
                     "Select Column to Order By", session_state['df'].columns)
                 order_direction = st.radio(
